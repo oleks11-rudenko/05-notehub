@@ -1,9 +1,8 @@
 import { Formik, Form, Field, type FormikHelpers, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import css from "./NoteForm.module.css";
-import type { NewNote } from "../../types/note";
+import type { Tag, NewNote } from "../../types/note";
 import { createNote } from "../../services/noteService";
 
 interface NoteFormProps {
@@ -13,7 +12,7 @@ interface NoteFormProps {
 interface NoteFormValues {
   title: string;
   content: string;
-  tag: string;
+  tag: Tag;
 }
 
 const initialValues: NoteFormValues = {
@@ -52,22 +51,6 @@ export default function NoteForm({ onClose }: NoteFormProps) {
     });
     actions.resetForm();
   };
-
-  useEffect(() => {
-    const handleKeydown = (event: KeyboardEvent) => {
-      if (event.code === "Escape") {
-        onClose();
-      }
-    };
-
-    document.addEventListener("keydown", handleKeydown);
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.removeEventListener("keydown", handleKeydown);
-      document.body.style.overflow = "";
-    };
-  }, [onClose]);
 
   return (
     <Formik

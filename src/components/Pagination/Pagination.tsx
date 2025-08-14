@@ -3,7 +3,7 @@ import ReactPaginate from "react-paginate";
 
 interface PaginationProps {
   totalPages: number;
-  setCurrentPage: (prevPage: number) => void;
+  setCurrentPage: (currentPage: number) => void;
   currentPage: number;
 }
 
