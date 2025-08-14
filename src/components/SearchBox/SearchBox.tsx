@@ -14,8 +14,8 @@ export default function SearchBox({
 }: SearchBoxProps) {
   const debouncedSearchQuery = useDebouncedCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchQuery(event.target.value);
       resetPage();
+      setSearchQuery(event.target.value);
     },
     300
   );
