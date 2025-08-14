@@ -12,13 +12,14 @@ export default function SearchBox({
   setSearchQuery,
   resetPage,
 }: SearchBoxProps) {
-  const debouncedSearchQuery = useDebouncedCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      resetPage();
-      setSearchQuery(event.target.value);
-    },
-    300
-  );
+  const debouncedSearchQuery = useDebouncedCallback((value: string) => {
+    setSearchQuery(value);
+    resetPage();
+  }, 300);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    debouncedSearchQuery(event.target.value);
+  };
 
   return (
     <input
@@ -26,7 +27,7 @@ export default function SearchBox({
       type="text"
       placeholder="Search notes"
       defaultValue={searchQuery}
-      onChange={debouncedSearchQuery}
+      onChange={handleChange}
     />
   );
 }
