@@ -2,6 +2,7 @@ import css from "./App.module.css";
 import { useState } from "react";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import Pagination from "../Pagination/Pagination";
+import { useDebouncedCallback } from "use-debounce";
 import { fetchNotes } from "../../services/noteService";
 import SearchBox from "../SearchBox/SearchBox";
 import Loader from "../Loader/Loader";
@@ -19,6 +20,8 @@ export default function App() {
 
   const [searchQuery, setSearchQuery] = useState("");
 
+  const debouncedSearchQuery = useDebouncedCallback(setSearchQuery, 300);
+
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["notes", currentPage, searchQuery],
     queryFn: () => fetchNotes(currentPage, searchQuery),
@@ -33,7 +36,7 @@ export default function App() {
       <header className={css.toolbar}>
         <SearchBox
           searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
+          setSearchQuery={debouncedSearchQuery}
           resetPage={resetPage}
         />
         {isSuccess && totalPages > 1 && (

@@ -1,4 +1,3 @@
-import { useDebouncedCallback } from "use-debounce";
 import css from "./SearchBox.module.css";
 
 interface SearchBoxProps {
@@ -12,13 +11,9 @@ export default function SearchBox({
   setSearchQuery,
   resetPage,
 }: SearchBoxProps) {
-  const debouncedSearchQuery = useDebouncedCallback((value: string) => {
-    setSearchQuery(value);
-    resetPage();
-  }, 300);
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    debouncedSearchQuery(event.target.value);
+    setSearchQuery(event.target.value);
+    resetPage();
   };
 
   return (
